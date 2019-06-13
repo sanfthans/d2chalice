@@ -16,26 +16,33 @@
                    "result" ]
         }
 
-        connect() {
-        }
-
         togglePicker(e) {
           let slot = e.target.closest(".slot")
           slot.classList.toggle("is-open")
+          this.slotTargets.forEach(el => {
+            if (el !== slot) {
+              el.classList.remove("is-open")
+            }
+          })
         }
 
-        openPicker(e) {
-          let slotNum = e.target.closest(".slot").dataset["slot"]
-          switch (slotNum) {
-            case '1':
-              this.slotOnePickerTarget.style.display = "flex"
-              this.slotTwoPickerTarget.style.display = "none"
-              this.slotThreePickerTarget.style.display = "none"
-              break;
-            default:
+        makeSelection(e) {
+          // update slot image
+          let slot = e.target.closest(".slot")
+          let selected = e.target.src
+          slot.querySelector("img").src = selected
 
-          }
+          // update text
+          let name = selected.replace(/^.*[\\\/]/, '').split(".")[0]
+          name = name.charAt(0).toUpperCase() + name.slice(1)
+          slot.querySelector(".slot-name").innerHTML = name
+
+          // close other pickers
+          this.slotTargets.forEach(el => {
+            el.classList.remove("is-open")
+          })
         }
+
       })
     })()
   </script>
@@ -61,6 +68,10 @@
       width: 300px;
       flex-wrap: wrap;
     }
+    .picker img {
+      width: 50px;
+      height: 50px;
+    }
     .slot.is-open .picker {
       display: flex;
     }
@@ -76,71 +87,68 @@
 
     <div class="slot"
       data-target="chalice.slotOne chalice.slot"
-      data-action="click->chalice#togglePicker"
       data-slot="1">
-      <img src="images/slot.png" alt="">
+      <img src="images/slot.png" data-action="click->chalice#togglePicker">
       <div class="slot-name" data-target="chalice.slotOneName"></div>
       <div class="picker"
         data-target="chalice.slotOnePicker">
-        <img src="images/beast.png" alt="" width="50px" height="50px">
-        <img src="images/joy.png" alt="" width="50px" height="50px">
-        <img src="images/jubilation.png" alt="" width="50px" height="50px">
-        <img src="images/ambition.png" alt="" width="50px" height="50px">
-        <img src="images/cunning.png" alt="" width="50px" height="50px">
-        <img src="images/gluttony.png" alt="" width="50px" height="50px">
-        <img src="images/desire.png" alt="" width="50px" height="50px">
-        <img src="images/pride.png" alt="" width="50px" height="50px">
-        <img src="images/war.png" alt="" width="50px" height="50px">
-        <img src="images/excess.png" alt="" width="50px" height="50px">
-        <img src="images/pleasure.png" alt="" width="50px" height="50px">
-        <img src="images/wealth.png" alt="" width="50px" height="50px">
+        <img src="images/beast.png" data-action="click->chalice#makeSelection">
+        <img src="images/joy.png" data-action="click->chalice#makeSelection">
+        <img src="images/jubilation.png" data-action="click->chalice#makeSelection">
+        <img src="images/ambition.png" data-action="click->chalice#makeSelection">
+        <img src="images/cunning.png" data-action="click->chalice#makeSelection">
+        <img src="images/gluttony.png" data-action="click->chalice#makeSelection">
+        <img src="images/desire.png" data-action="click->chalice#makeSelection">
+        <img src="images/pride.png" data-action="click->chalice#makeSelection">
+        <img src="images/war.png" data-action="click->chalice#makeSelection">
+        <img src="images/excess.png" data-action="click->chalice#makeSelection">
+        <img src="images/pleasure.png" data-action="click->chalice#makeSelection">
+        <img src="images/wealth.png" data-action="click->chalice#makeSelection">
       </div>
     </div>
 
     <div class="slot-container">
       <div class="slot"
         data-target="chalice.slotTwo chalice.slot"
-        data-action="click->chalice#togglePicker"
-        data-slot="1">
-        <img src="images/slot.png" alt="">
+        data-slot="2">
+        <img src="images/slot.png" data-action="click->chalice#togglePicker">
         <div class="slot-name" data-target="chalice.slotTwoName"></div>
         <div class="picker"
           data-target="chalice.slotTwoPicker">
-          <img src="images/beast.png" alt="" width="50px" height="50px">
-          <img src="images/joy.png" alt="" width="50px" height="50px">
-          <img src="images/jubilation.png" alt="" width="50px" height="50px">
-          <img src="images/ambition.png" alt="" width="50px" height="50px">
-          <img src="images/cunning.png" alt="" width="50px" height="50px">
-          <img src="images/gluttony.png" alt="" width="50px" height="50px">
-          <img src="images/desire.png" alt="" width="50px" height="50px">
-          <img src="images/pride.png" alt="" width="50px" height="50px">
-          <img src="images/war.png" alt="" width="50px" height="50px">
-          <img src="images/excess.png" alt="" width="50px" height="50px">
-          <img src="images/pleasure.png" alt="" width="50px" height="50px">
-          <img src="images/wealth.png" alt="" width="50px" height="50px">
+          <img src="images/beast.png" data-action="click->chalice#makeSelection">
+          <img src="images/joy.png" data-action="click->chalice#makeSelection">
+          <img src="images/jubilation.png" data-action="click->chalice#makeSelection">
+          <img src="images/ambition.png" data-action="click->chalice#makeSelection">
+          <img src="images/cunning.png" data-action="click->chalice#makeSelection">
+          <img src="images/gluttony.png" data-action="click->chalice#makeSelection">
+          <img src="images/desire.png" data-action="click->chalice#makeSelection">
+          <img src="images/pride.png" data-action="click->chalice#makeSelection">
+          <img src="images/war.png" data-action="click->chalice#makeSelection">
+          <img src="images/excess.png" data-action="click->chalice#makeSelection">
+          <img src="images/pleasure.png" data-action="click->chalice#makeSelection">
+          <img src="images/wealth.png" data-action="click->chalice#makeSelection">
         </div>
       </div>
 
       <div class="slot"
         data-target="chalice.slotThree chalice.slot"
-        data-action="click->chalice#togglePicker"
-        data-slot="1">
-        <img src="images/slot.png" alt="">
+        data-slot="3">
+        <img src="images/slot.png" data-action="click->chalice#togglePicker">
         <div class="slot-name" data-target="chalice.slotThreeName"></div>
         <div class="picker"
           data-target="chalice.slotThreePicker">
-          <img src="images/beast.png" alt="" width="50px" height="50px">
-          <img src="images/joy.png" alt="" width="50px" height="50px">
-          <img src="images/jubilation.png" alt="" width="50px" height="50px">
-          <img src="images/ambition.png" alt="" width="50px" height="50px">
-          <img src="images/cunning.png" alt="" width="50px" height="50px">
-          <img src="images/gluttony.png" alt="" width="50px" height="50px">
-          <img src="images/desire.png" alt="" width="50px" height="50px">
-          <img src="images/pride.png" alt="" width="50px" height="50px">
-          <img src="images/war.png" alt="" width="50px" height="50px">
-          <img src="images/excess.png" alt="" width="50px" height="50px">
-          <img src="images/pleasure.png" alt="" width="50px" height="50px">
-          <img src="images/wealth.png" alt="" width="50px" height="50px">
+          <img src="images/beast.png" data-action="click->chalice#makeSelection">
+          <img src="images/joy.png" data-action="click->chalice#makeSelection">
+          <img src="images/jubilation.png" data-action="click->chalice#makeSelection">
+          <img src="images/ambition.png" data-action="click->chalice#makeSelection">
+          <img src="images/cunning.png" data-action="click->chalice#makeSelection">
+          <img src="images/gluttony.png" data-action="click->chalice#makeSelection">
+          <img src="images/desire.png" data-action="click->chalice#makeSelection">
+          <img src="images/pride.png" data-action="click->chalice#makeSelection">
+          <img src="images/war.png" data-action="click->chalice#makeSelection">
+          <img src="images/excess.png" data-action="click->chalice#makeSelection">
+          <img src="images/pleasure.png" data-action="click->chalice#makeSelection">
+          <img src="images/wealth.png" data-action="click->chalice#makeSelection">
         </div>
       </div>
     </div>
