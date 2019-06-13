@@ -13,12 +13,36 @@
                    "slotOne", "slotOneName", "slotOnePicker",
                    "slotTwo", "slotTwoName", "slotTwoPicker",
                    "slotThree", "slotThreeName", "slotThreePicker",
-                   "result" ]
+                   "results" ]
+        }
+
+        connect() {
+          this.grid = [
+            ['calus_mini_tool', 'trackless_waste', 'hard_truths', 'bad_reputation'],
+            ['twilight_oath', 'beloved', 'fate_cries_foul', 'dreaded_venture'],
+            ['bad_omens', 'zenobia_d', 'sleepless', 'fixed_odds'],
+            ['trust', 'austringer', 'waking_vigil', 'pribina_d'],
+            ['drang_baroque', 'the_last_dance', 'anonymous_autumn', 'smugglers_word'],
+            ['proelium_fr3', 'main_ingredient', 'the_epicurean', 'erentil_fr4'],
+            ['badlander', 'parcel_of_stardust', 'imperial_decree', 'dust_rock_blues']
+          ]
+
+          this.namesGrid = [
+            ['CALUS Mini-Tool', 'Trackless Waste', 'Hard Truths', 'Bad Reputation'],
+            ['Twilight Oath', 'Beloved', 'Fate Cries Foul', 'Dreaded Venture'],
+            ['Bad Omens', 'Zenobia-D', 'Sleepless', 'Fixed Odds'],
+            ['Trust', 'Austringer', 'Waking Vigil', 'Pribina-D'],
+            ['Drang (Baroque)', 'The Last Dance', 'Anonymous Autumn', "Smuggler's Word"],
+            ['Proelium FR3', 'Main Ingredient', 'The Epicurean', 'Erentil FR4'],
+            ['Badlander', 'Parcel of Stardust', 'Imperial Decree', 'Dust Rock Blues']
+          ]
         }
 
         togglePicker(e) {
           let slot = e.target.closest(".slot")
           slot.classList.toggle("is-open")
+
+          // close other pickers
           this.slotTargets.forEach(el => {
             if (el !== slot) {
               el.classList.remove("is-open")
@@ -35,10 +59,46 @@
           // update text
           slot.querySelector(".slot-name").innerHTML = e.target.dataset["name"]
 
-          // close other pickers
-          this.slotTargets.forEach(el => {
-            el.classList.remove("is-open")
-          })
+          // close picker
+          slot.classList.remove("is-open")
+
+          if (slot === this.slotOneTarget) {
+            this.selectedCol = parseInt(e.target.dataset["column"])
+          } else if (slot === this.slotTwoTarget) {
+            this.selectedRow = parseInt(e.target.dataset["row"])
+          }
+
+          this.showResults()
+        }
+
+        showResults() {
+          let controller = this
+          let selected = ""
+          let name = ""
+          let resultsTarget = this.resultsTarget
+
+          if (typeof this.selectedCol !== 'undefined') {
+            // both slots being used
+            if (typeof this.selectedRow !== 'undefined') {
+              selected = this.grid[this.selectedCol][this.selectedRow]
+              name = this.namesGrid[this.selectedCol][this.selectedRow]
+              resultsTarget.innerHTML = `
+              <div class='result'>
+                <img src="images/${selected}.jpg" ><span class='result-name'>${name}</span>
+              </div>`
+            } else {
+              selected = this.grid[this.selectedCol]
+              name =
+              resultsTarget.innerHTML = ""
+              selected.forEach((selected, i) => {
+                let name = controller.namesGrid[this.selectedCol][i]
+                let node = document.createElement("div")
+                node.classList.add("result")
+                node.innerHTML = `<img src="images/${selected}.jpg" ><span class='result-name'>${name}</span>`
+                resultsTarget.appendChild(node)
+              })
+            }
+          }
         }
 
       })
@@ -51,7 +111,7 @@
       font-weight: bold;
     }
     .container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 100px auto 0;
     }
     .slot {
@@ -70,6 +130,8 @@
       top: 100px;
       width: 300px;
       flex-wrap: wrap;
+      background-color: #252525;
+      z-index: 1;
     }
     .picker img {
       width: 50px;
@@ -83,80 +145,126 @@
       justify-content: space-between;
       margin-top: 20px;
     }
+    .results {
+      display: flex;
+      justify-content: center;
+      margin-bottom: -4px;
+    }
+    .result {
+      position: relative;
+      margin-left: 20px;
+    }
+    .restult:last-child {
+      margin-right: 20px;
+    }
+    .result-name {
+      position: absolute;
+      bottom: -28px;
+      left: 0;
+      font-size: .8rem;
+      color: white;
+    }
   </style>
 <head>
 <body style="background-color:#252525;">
   <div class="container" data-controller="chalice">
 
-    <div class="slot"
-      data-target="chalice.slotOne chalice.slot"
-      data-slot="1">
+    <div class="slot" data-target="chalice.slotOne chalice.slot">
       <img src="images/slot.png" data-action="click->chalice#togglePicker">
       <div class="slot-name" data-target="chalice.slotOneName"></div>
-      <div class="picker"
-        data-target="chalice.slotOnePicker">
-        <img src="images/beast.png" data-action="click->chalice#makeSelection" data-name="Beast">
-        <img src="images/joy.png" data-action="click->chalice#makeSelection" data-name="Joy">
-        <img src="images/jubilation.png" data-action="click->chalice#makeSelection" data-name="Jubilation">
-        <img src="images/ambition.png" data-action="click->chalice#makeSelection" data-name="Ambition">
-        <img src="images/cunning.png" data-action="click->chalice#makeSelection" data-name="Cunning">
-        <img src="images/gluttony.png" data-action="click->chalice#makeSelection" data-name="Gluttony">
-        <img src="images/desire.png" data-action="click->chalice#makeSelection" data-name="Desire">
-        <img src="images/pride.png" data-action="click->chalice#makeSelection" data-name="Pride">
-        <img src="images/war.png" data-action="click->chalice#makeSelection" data-name="War">
-        <img src="images/excess.png" data-action="click->chalice#makeSelection" data-name="Excess">
-        <img src="images/pleasure.png" data-action="click->chalice#makeSelection" data-name="Pleasure">
-        <img src="images/wealth.png" data-action="click->chalice#makeSelection" data-name="Wealth">
+      <div class="picker" data-target="chalice.slotOnePicker">
+        <img src="images/beast.png" data-action="click->chalice#makeSelection"
+          data-name="Beast" data-column="0" data-row="0" title="Beast">
+        <img src="images/joy.png" data-action="click->chalice#makeSelection"
+          data-name="Joy" data-row="0" title="Joy">
+        <img src="images/jubilation.png" data-action="click->chalice#makeSelection"
+          data-name="Jubilation" data-column="1" data-row="0" title="Jubilation">
+        <img src="images/ambition.png" data-action="click->chalice#makeSelection"
+          data-name="Ambition" data-column="2" data-row="1" title="Ambition">
+        <img src="images/cunning.png" data-action="click->chalice#makeSelection"
+          data-name="Cunning" data-row="1" title="Cunning">
+        <img src="images/gluttony.png" data-action="click->chalice#makeSelection"
+          data-name="Gluttony" data-row="1" title="Gluttony">
+        <img src="images/desire.png" data-action="click->chalice#makeSelection"
+          data-name="Desire" data-column="3" data-row="2" title="Desire">
+        <img src="images/pride.png" data-action="click->chalice#makeSelection"
+          data-name="Pride" data-column="4" data-row="2" title="Pride">
+        <img src="images/war.png" data-action="click->chalice#makeSelection"
+          data-name="War" data-row="2" title="War">
+        <img src="images/excess.png" data-action="click->chalice#makeSelection"
+          data-name="Excess" data-column="5" data-row="3" title="Excess">
+        <img src="images/pleasure.png" data-action="click->chalice#makeSelection"
+          data-name="Pleasure" data-row="3" title="Pleasure">
+        <img src="images/wealth.png" data-action="click->chalice#makeSelection"
+          data-name="Wealth" data-column="6" data-row="3" title="Wealth">
       </div>
     </div>
 
     <div class="slot-container">
-      <div class="slot"
-        data-target="chalice.slotTwo chalice.slot"
-        data-slot="2">
+      <div class="slot" data-target="chalice.slotTwo chalice.slot">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
         <div class="slot-name" data-target="chalice.slotTwoName"></div>
-        <div class="picker"
-          data-target="chalice.slotTwoPicker">
-          <img src="images/beast.png" data-action="click->chalice#makeSelection" data-name="Beast">
-          <img src="images/joy.png" data-action="click->chalice#makeSelection" data-name="Joy">
-          <img src="images/jubilation.png" data-action="click->chalice#makeSelection" data-name="Jubilation">
-          <img src="images/ambition.png" data-action="click->chalice#makeSelection" data-name="Ambition">
-          <img src="images/cunning.png" data-action="click->chalice#makeSelection" data-name="Cunning">
-          <img src="images/gluttony.png" data-action="click->chalice#makeSelection" data-name="Gluttony">
-          <img src="images/desire.png" data-action="click->chalice#makeSelection" data-name="Desire">
-          <img src="images/pride.png" data-action="click->chalice#makeSelection" data-name="Pride">
-          <img src="images/war.png" data-action="click->chalice#makeSelection" data-name="War">
-          <img src="images/excess.png" data-action="click->chalice#makeSelection" data-name="Excess">
-          <img src="images/pleasure.png" data-action="click->chalice#makeSelection" data-name="Pleasure">
-          <img src="images/wealth.png" data-action="click->chalice#makeSelection" data-name="Wealth">
+        <div class="picker" data-target="chalice.slotTwoPicker">
+          <img src="images/beast.png" data-action="click->chalice#makeSelection"
+            data-name="Beast" data-column="0" data-row="0" title="Beast">
+          <img src="images/joy.png" data-action="click->chalice#makeSelection"
+            data-name="Joy" data-row="0" title="Joy">
+          <img src="images/jubilation.png" data-action="click->chalice#makeSelection"
+            data-name="Jubilation" data-column="1" data-row="0" title="Jubilation">
+          <img src="images/ambition.png" data-action="click->chalice#makeSelection"
+            data-name="Ambition" data-column="2" data-row="1" title="Ambition">
+          <img src="images/cunning.png" data-action="click->chalice#makeSelection"
+            data-name="Cunning" data-row="1" title="Cunning">
+          <img src="images/gluttony.png" data-action="click->chalice#makeSelection"
+            data-name="Gluttony" data-row="1" title="Gluttony">
+          <img src="images/desire.png" data-action="click->chalice#makeSelection"
+            data-name="Desire" data-column="3" data-row="2" title="Desire">
+          <img src="images/pride.png" data-action="click->chalice#makeSelection"
+            data-name="Pride" data-column="4" data-row="2" title="Pride">
+          <img src="images/war.png" data-action="click->chalice#makeSelection"
+            data-name="War" data-row="2" title="War">
+          <img src="images/excess.png" data-action="click->chalice#makeSelection"
+            data-name="Excess" data-column="5" data-row="3" title="Excess">
+          <img src="images/pleasure.png" data-action="click->chalice#makeSelection"
+            data-name="Pleasure" data-row="3" title="Pleasure">
+          <img src="images/wealth.png" data-action="click->chalice#makeSelection"
+            data-name="Wealth" data-column="6" data-row="3" title="Wealth">
         </div>
       </div>
 
-      <div class="slot"
-        data-target="chalice.slotThree chalice.slot"
-        data-slot="3">
+      <div class="results" data-target="chalice.results">
+      </div>
+
+      <div class="slot" data-target="chalice.slotThree chalice.slot">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
         <div class="slot-name" data-target="chalice.slotThreeName"></div>
-        <div class="picker"
-          data-target="chalice.slotThreePicker">
-          <img src="images/beast.png" data-action="click->chalice#makeSelection" data-name="Beast">
-          <img src="images/joy.png" data-action="click->chalice#makeSelection" data-name="Joy">
-          <img src="images/jubilation.png" data-action="click->chalice#makeSelection" data-name="Jubilation">
-          <img src="images/ambition.png" data-action="click->chalice#makeSelection" data-name="Ambition">
-          <img src="images/cunning.png" data-action="click->chalice#makeSelection" data-name="Cunning">
-          <img src="images/gluttony.png" data-action="click->chalice#makeSelection" data-name="Gluttony">
-          <img src="images/desire.png" data-action="click->chalice#makeSelection" data-name="Desire">
-          <img src="images/pride.png" data-action="click->chalice#makeSelection" data-name="Pride">
-          <img src="images/war.png" data-action="click->chalice#makeSelection" data-name="War">
-          <img src="images/excess.png" data-action="click->chalice#makeSelection" data-name="Excess">
-          <img src="images/pleasure.png" data-action="click->chalice#makeSelection" data-name="Pleasure">
-          <img src="images/wealth.png" data-action="click->chalice#makeSelection" data-name="Wealth">
+        <div class="picker" data-target="chalice.slotThreePicker">
+          <img src="images/beast.png" data-action="click->chalice#makeSelection"
+            data-name="Beast" data-column="0" data-row="0" title="Beast">
+          <img src="images/joy.png" data-action="click->chalice#makeSelection"
+            data-name="Joy" data-row="0" title="Joy">
+          <img src="images/jubilation.png" data-action="click->chalice#makeSelection"
+            data-name="Jubilation" data-column="1" data-row="0" title="Jubilation">
+          <img src="images/ambition.png" data-action="click->chalice#makeSelection"
+            data-name="Ambition" data-column="2" data-row="1" title="Ambition">
+          <img src="images/cunning.png" data-action="click->chalice#makeSelection"
+            data-name="Cunning" data-row="1" title="Cunning">
+          <img src="images/gluttony.png" data-action="click->chalice#makeSelection"
+            data-name="Gluttony" data-row="1" title="Gluttony">
+          <img src="images/desire.png" data-action="click->chalice#makeSelection"
+            data-name="Desire" data-column="3" data-row="2" title="Desire">
+          <img src="images/pride.png" data-action="click->chalice#makeSelection"
+            data-name="Pride" data-column="4" data-row="2" title="Pride">
+          <img src="images/war.png" data-action="click->chalice#makeSelection"
+            data-name="War" data-row="2" title="War">
+          <img src="images/excess.png" data-action="click->chalice#makeSelection"
+            data-name="Excess" data-column="5" data-row="3" title="Excess">
+          <img src="images/pleasure.png" data-action="click->chalice#makeSelection"
+            data-name="Pleasure" data-row="3" title="Pleasure">
+          <img src="images/wealth.png" data-action="click->chalice#makeSelection"
+            data-name="Wealth" data-column="6" data-row="3" title="Wealth">
         </div>
       </div>
-    </div>
-
-    <div data-target="chalice.result">
     </div>
   </div>
 </body>
