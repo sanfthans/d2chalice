@@ -36,11 +36,11 @@
             ['Drang (Baroque)', 'The Last Dance', 'Anonymous Autumn', "Smuggler's Word"],
             ['Proelium FR3', 'Main Ingredient', 'The Epicurean', 'Erentil FR4'],
             ['Badlander', 'Parcel of Stardust', 'Imperial Decree', 'Dust Rock Blues'],
-            ['tangled_web_cloak', 'exodus_down_cloak', 'reverie_dawn_cloak', 'opulent_stalker_cloak'],
-            ['tangled_web_grips', 'exodus_down_grips', 'reverie_dawn_grasps', 'opulent_stalker_grips'],
-            ['tangled_web_strides', 'exodus_down_strides', 'reverie_dawn_strides', 'opulent_stalker_strides'],
-            ['tangled_web_mask', 'exodus_down_mask', 'reverie_dawn_casque', 'opulent_stalker_mask'],
-            ['tangled_web_vest', 'exodus_down_vest', 'reverie_dawn_hauberk', 'opulent_stalker_vest']
+            ["Class (Tangled Shore)", "Class (Menagerie)", "Class (Dreaming City)", "Class (Menagerie)"],
+            ["Gloves (Tangled Shore)", "Gloves (Menagerie)", "Gloves (Dreaming City)", "Gloves (Menagerie)"],
+            ["Boots (Tangled Shore)", "Boots (Menagerie)", "Boots (Dreaming City)", "Boots (Menagerie)"],
+            ["Helmet (Tangled Shore)", "Helmet (Menagerie)", "Helmet (Dreaming City)", "Helmet (Menagerie)"],
+            ["Chest (Tangled Shore)", "Chest (Menagerie)", "Chest (Dreaming City)", "Chest (Menagerie)"]
           ]
         }
 
@@ -151,30 +151,33 @@
     .slot-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 30px;
+    }
+    .chalice {
+      display: flex;
+      justify-content: center;
     }
     .results {
       display: flex;
       justify-content: center;
-      margin-bottom: -4px;
+      margin-top: 50px;
     }
     .result {
-      position: relative;
-      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      margin-left: 30px;
     }
-    .result:last-child {
-      margin-right: 20px;
+    .result img {
+      min-width: 115px;
     }
     .result:first-child {
       margin-left: 0px;
-      margin-right: 0px;
     }
     .result-name {
-      position: absolute;
-      bottom: -28px;
-      left: 0;
-      font-size: .8rem;
+      font-size: .7rem;
       color: white;
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 <head>
@@ -244,7 +247,8 @@
         </div>
       </div>
 
-      <div class="results" data-target="chalice.results">
+      <div class="chalice">
+        <img src="images/chalice.jpeg">
       </div>
 
       <div class="slot" data-target="chalice.slotThree chalice.slot">
@@ -277,6 +281,9 @@
             data-name="Wealth" data-column="6" data-row="3" title="Wealth">
         </div>
       </div>
+    </div>
+
+    <div class="results" data-target="chalice.results">
     </div>
   </div>
 </body>
