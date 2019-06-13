@@ -9,11 +9,7 @@
 
       application.register("chalice", class extends Stimulus.Controller {
         static get targets() {
-          return [ "slot",
-                   "slotOne", "slotOneName", "slotOnePicker",
-                   "slotTwo", "slotTwoName", "slotTwoPicker",
-                   "slotThree", "slotThreeName", "slotThreePicker",
-                   "results" ]
+          return [ "slot", "slotOne", "slotTwo", "slotThree", "results" ]
         }
 
         connect() {
@@ -118,6 +114,7 @@
       display: flex;
       justify-content: center;
       position:relative;
+      cursor: pointer;
     }
     .slot-name {
       position: absolute;
@@ -136,6 +133,7 @@
     .picker img {
       width: 50px;
       height: 50px;
+      cursor: pointer;
     }
     .slot.is-open .picker {
       display: flex;
@@ -154,8 +152,12 @@
       position: relative;
       margin-left: 20px;
     }
-    .restult:last-child {
+    .result:last-child {
       margin-right: 20px;
+    }
+    .result:first-child {
+      margin-left: 0px;
+      margin-right: 0px;
     }
     .result-name {
       position: absolute;
@@ -171,8 +173,8 @@
 
     <div class="slot" data-target="chalice.slotOne chalice.slot">
       <img src="images/slot.png" data-action="click->chalice#togglePicker">
-      <div class="slot-name" data-target="chalice.slotOneName"></div>
-      <div class="picker" data-target="chalice.slotOnePicker">
+      <div class="slot-name"></div>
+      <div class="picker">
         <img src="images/beast.png" data-action="click->chalice#makeSelection"
           data-name="Beast" data-column="0" data-row="0" title="Beast">
         <img src="images/joy.png" data-action="click->chalice#makeSelection"
@@ -203,8 +205,8 @@
     <div class="slot-container">
       <div class="slot" data-target="chalice.slotTwo chalice.slot">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
-        <div class="slot-name" data-target="chalice.slotTwoName"></div>
-        <div class="picker" data-target="chalice.slotTwoPicker">
+        <div class="slot-name"></div>
+        <div class="picker">
           <img src="images/beast.png" data-action="click->chalice#makeSelection"
             data-name="Beast" data-column="0" data-row="0" title="Beast">
           <img src="images/joy.png" data-action="click->chalice#makeSelection"
@@ -237,8 +239,8 @@
 
       <div class="slot" data-target="chalice.slotThree chalice.slot">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
-        <div class="slot-name" data-target="chalice.slotThreeName"></div>
-        <div class="picker" data-target="chalice.slotThreePicker">
+        <div class="slot-name"></div>
+        <div class="picker">
           <img src="images/beast.png" data-action="click->chalice#makeSelection"
             data-name="Beast" data-column="0" data-row="0" title="Beast">
           <img src="images/joy.png" data-action="click->chalice#makeSelection"
