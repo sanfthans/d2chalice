@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/stimulus/dist/stimulus.umd.js"></script>
+  <script>
+    (() => {
+      const application = Stimulus.Application.start()
+
+      application.register("chalice", class extends Stimulus.Controller {
+        static get targets() {
+          return [ "slot",
+                   "slotOne", "slotOneName", "slotOnePicker",
+                   "slotTwo", "slotTwoName", "slotTwoPicker",
+                   "slotThree", "slotThreeName", "slotThreePicker",
+                   "result" ]
+        }
+
+        connect() {
+        }
+
+        togglePicker(e) {
+          let slot = e.target.closest(".slot")
+          slot.classList.toggle("is-open")
+        }
+
+        openPicker(e) {
+          let slotNum = e.target.closest(".slot").dataset["slot"]
+          switch (slotNum) {
+            case '1':
+              this.slotOnePickerTarget.style.display = "flex"
+              this.slotTwoPickerTarget.style.display = "none"
+              this.slotThreePickerTarget.style.display = "none"
+              break;
+            default:
+
+          }
+        }
+      })
+    })()
+  </script>
+  <style media="screen">
+    .container {
+      max-width: 600px;
+      margin: 100px auto 0;
+    }
+    .slot {
+      display: flex;
+      justify-content: center;
+      position:relative;
+    }
+    .slot-name {
+      position: absolute;
+      top: -20px;
+      color: white;
+    }
+    .picker {
+      display: none;
+      position: absolute;
+      top: 100px;
+      width: 300px;
+      flex-wrap: wrap;
+    }
+    .slot.is-open .picker {
+      display: flex;
+    }
+    .slot-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+  </style>
+<head>
+<body style="background-color:#252525;">
+  <div class="container" data-controller="chalice">
+
+    <div class="slot"
+      data-target="chalice.slotOne chalice.slot"
+      data-action="click->chalice#togglePicker"
+      data-slot="1">
+      <img src="images/slot.png" alt="">
+      <div class="slot-name" data-target="chalice.slotOneName"></div>
+      <div class="picker"
+        data-target="chalice.slotOnePicker">
+        <img src="images/beast.png" alt="" width="50px" height="50px">
+        <img src="images/joy.png" alt="" width="50px" height="50px">
+        <img src="images/jubilation.png" alt="" width="50px" height="50px">
+        <img src="images/ambition.png" alt="" width="50px" height="50px">
+        <img src="images/cunning.png" alt="" width="50px" height="50px">
+        <img src="images/gluttony.png" alt="" width="50px" height="50px">
+        <img src="images/desire.png" alt="" width="50px" height="50px">
+        <img src="images/pride.png" alt="" width="50px" height="50px">
+        <img src="images/war.png" alt="" width="50px" height="50px">
+        <img src="images/excess.png" alt="" width="50px" height="50px">
+        <img src="images/pleasure.png" alt="" width="50px" height="50px">
+        <img src="images/wealth.png" alt="" width="50px" height="50px">
+      </div>
+    </div>
+
+    <div class="slot-container">
+      <div class="slot"
+        data-target="chalice.slotTwo chalice.slot"
+        data-action="click->chalice#togglePicker"
+        data-slot="1">
+        <img src="images/slot.png" alt="">
+        <div class="slot-name" data-target="chalice.slotTwoName"></div>
+        <div class="picker"
+          data-target="chalice.slotTwoPicker">
+          <img src="images/beast.png" alt="" width="50px" height="50px">
+          <img src="images/joy.png" alt="" width="50px" height="50px">
+          <img src="images/jubilation.png" alt="" width="50px" height="50px">
+          <img src="images/ambition.png" alt="" width="50px" height="50px">
+          <img src="images/cunning.png" alt="" width="50px" height="50px">
+          <img src="images/gluttony.png" alt="" width="50px" height="50px">
+          <img src="images/desire.png" alt="" width="50px" height="50px">
+          <img src="images/pride.png" alt="" width="50px" height="50px">
+          <img src="images/war.png" alt="" width="50px" height="50px">
+          <img src="images/excess.png" alt="" width="50px" height="50px">
+          <img src="images/pleasure.png" alt="" width="50px" height="50px">
+          <img src="images/wealth.png" alt="" width="50px" height="50px">
+        </div>
+      </div>
+
+      <div class="slot"
+        data-target="chalice.slotThree chalice.slot"
+        data-action="click->chalice#togglePicker"
+        data-slot="1">
+        <img src="images/slot.png" alt="">
+        <div class="slot-name" data-target="chalice.slotThreeName"></div>
+        <div class="picker"
+          data-target="chalice.slotThreePicker">
+          <img src="images/beast.png" alt="" width="50px" height="50px">
+          <img src="images/joy.png" alt="" width="50px" height="50px">
+          <img src="images/jubilation.png" alt="" width="50px" height="50px">
+          <img src="images/ambition.png" alt="" width="50px" height="50px">
+          <img src="images/cunning.png" alt="" width="50px" height="50px">
+          <img src="images/gluttony.png" alt="" width="50px" height="50px">
+          <img src="images/desire.png" alt="" width="50px" height="50px">
+          <img src="images/pride.png" alt="" width="50px" height="50px">
+          <img src="images/war.png" alt="" width="50px" height="50px">
+          <img src="images/excess.png" alt="" width="50px" height="50px">
+          <img src="images/pleasure.png" alt="" width="50px" height="50px">
+          <img src="images/wealth.png" alt="" width="50px" height="50px">
+        </div>
+      </div>
+    </div>
+
+    <div data-target="chalice.result">
+    </div>
+  </div>
+</body>
+</html>
