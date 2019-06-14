@@ -43,6 +43,11 @@
             ['Badlander', 'Parcel of Stardust', 'Imperial Decree', 'Dust Rock Blues'],
           ]
 
+          this.runeCols = ["beast", "joy", "jubilation", "ambition", "cunning", "gluttony", "desire", "pride", "war", "excess", "pleasure", "wealth"]
+          this.runeColNames = ["Beast", "Joy", "Jubilation", "Ambition", "Cunning", "Gluttony", "Desire", "Pride", "War", "Excess", "Pleasure", "Wealth"]
+          this.runeRows = ["any_purple", "any_red", "any_green", "any_blue"]
+          this.runeRowNames = ["Any Purple", "Any Red", "Any Green", "Any Blue"]
+
           this.selectedCol = null
           this.selectedRow = null
           this.selectedResistance = null
@@ -194,7 +199,23 @@
           this.slotTargets.forEach(el => {
             el.classList.remove("is-open")
           })
+        }
 
+        makeItemSelection(e) {
+          this.selectedCol = parseInt(e.target.dataset["column"])
+          this.selectedRow = parseInt(e.target.dataset["row"])
+
+          this.slotOneTarget.querySelector("img").src = `images/${this.runeCols[this.selectedCol]}.png`
+          this.slotOneTarget.querySelector(".slot-name").innerHTML = this.runeColNames[this.selectedCol]
+
+          this.slotTwoTarget.querySelector("img").src = `images/${this.runeRows[this.selectedRow]}.png`
+          this.slotTwoTarget.querySelector(".slot-name").innerHTML = this.runeRowNames[this.selectedRow]
+
+          this.clearable = true
+          this.clearTarget.classList.remove("hidden")
+          this.placeholderTarget.classList.add("hidden")
+          this.placeholderTarget.classList.remove("is-open")
+          this.showResults(e.target.title)
         }
 
       })
@@ -450,57 +471,105 @@
     <div class="placeholder-container">
       <div class="placeholder" data-target="chalice.placeholder" data-action="click->chalice#toggleResultPicker">
         <div class="result-picker picker">
-          <img src="images/calus_mini_tool.jpg" title="CALUS Mini-Tool">
-          <img src="images/tangled_web_cloak.jpg" title="Class (Tangled Shore)">
-          <img src="images/twilight_oath.jpg" title="Twilight Oath">
-          <img src="images/bad_omens.jpg" title="Bad Omens">
-          <img src="images/tangled_web_grips.jpg" title="Gloves (Tangled Shore)">
-          <img src="images/tangled_web_strides.jpg" title="Boots (Tangled Shore)">
-          <img src="images/trust.jpg" title="Trust">
-          <img src="images/drang_baroque.jpg" title="Drang (Baroque)">
-          <img src="images/tangled_web_mask.jpg" title="Helmet (Tangled Shore)">
-          <img src="images/proelium_fr3.jpg" title="Proelium FR3">
-          <img src="images/tangled_web_vest.jpg" title="Chest (Tangled Shore)">
-          <img src="images/badlander.jpg" title="Badlander">
+          <img src="images/calus_mini_tool.jpg" title="CALUS Mini-Tool"
+            data-action="click->chalice#makeItemSelection" data-column="0" data-row="0">
+          <img src="images/tangled_web_cloak.jpg" title="Class (Tangled Shore)"
+            data-action="click->chalice#makeItemSelection" data-column="1" data-row="0">
+          <img src="images/twilight_oath.jpg" title="Twilight Oath"
+            data-action="click->chalice#makeItemSelection" data-column="2" data-row="0">
+          <img src="images/bad_omens.jpg" title="Bad Omens"
+            data-action="click->chalice#makeItemSelection" data-column="3" data-row="0">
+          <img src="images/tangled_web_grips.jpg" title="Gloves (Tangled Shore)"
+            data-action="click->chalice#makeItemSelection" data-column="4" data-row="0">
+          <img src="images/tangled_web_strides.jpg" title="Boots (Tangled Shore)"
+            data-action="click->chalice#makeItemSelection" data-column="5" data-row="0">
+          <img src="images/trust.jpg" title="Trust"
+            data-action="click->chalice#makeItemSelection" data-column="6" data-row="0">
+          <img src="images/drang_baroque.jpg" title="Drang (Baroque)"
+            data-action="click->chalice#makeItemSelection" data-column="7" data-row="0">
+          <img src="images/tangled_web_mask.jpg" title="Helmet (Tangled Shore)"
+            data-action="click->chalice#makeItemSelection" data-column="8" data-row="0">
+          <img src="images/proelium_fr3.jpg" title="Proelium FR3"
+            data-action="click->chalice#makeItemSelection" data-column="9" data-row="0">
+          <img src="images/tangled_web_vest.jpg" title="Chest (Tangled Shore)"
+            data-action="click->chalice#makeItemSelection" data-column="10" data-row="0">
+          <img src="images/badlander.jpg" title="Badlander"
+            data-action="click->chalice#makeItemSelection" data-column="11" data-row="0">
 
-          <img src="images/trackless_waste.jpg" title="Trackless Waste">
-          <img src="images/exodus_down_cloak.jpg" title="Class (Menagerie)">
-          <img src="images/beloved.jpg" title="Beloved">
-          <img src="images/zenobia_d.jpg" title="Zenobia-D">
-          <img src="images/exodus_down_grips.jpg" title="Gloves (Menagerie)">
-          <img src="images/exodus_down_strides.jpg" title="Boots (Menagerie)">
-          <img src="images/austringer.jpg" title="Austringer">
-          <img src="images/the_last_dance.jpg" title="The Last Dance">
-          <img src="images/exodus_down_mask.jpg" title="Helmet (Menagerie)">
-          <img src="images/main_ingredient.jpg" title="Main Ingredient">
-          <img src="images/exodus_down_vest.jpg" title="Chest (Menagerie)">
-          <img src="images/parcel_of_stardust.jpg" title="Parcel of Stardust">
+          <img src="images/trackless_waste.jpg" title="Trackless Waste"
+            data-action="click->chalice#makeItemSelection" data-column="0" data-row="1">
+          <img src="images/exodus_down_cloak.jpg" title="Class (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="1" data-row="1">
+          <img src="images/beloved.jpg" title="Beloved"
+            data-action="click->chalice#makeItemSelection" data-column="2" data-row="1">
+          <img src="images/zenobia_d.jpg" title="Zenobia-D"
+            data-action="click->chalice#makeItemSelection" data-column="3" data-row="1">
+          <img src="images/exodus_down_grips.jpg" title="Gloves (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="4" data-row="1">
+          <img src="images/exodus_down_strides.jpg" title="Boots (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="5" data-row="1">
+          <img src="images/austringer.jpg" title="Austringer"
+            data-action="click->chalice#makeItemSelection" data-column="6" data-row="1">
+          <img src="images/the_last_dance.jpg" title="The Last Dance"
+            data-action="click->chalice#makeItemSelection" data-column="7" data-row="1">
+          <img src="images/exodus_down_mask.jpg" title="Helmet (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="8" data-row="1">
+          <img src="images/main_ingredient.jpg" title="Main Ingredient"
+            data-action="click->chalice#makeItemSelection" data-column="9" data-row="1">
+          <img src="images/exodus_down_vest.jpg" title="Chest (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="10" data-row="1">
+          <img src="images/parcel_of_stardust.jpg" title="Parcel of Stardust"
+            data-action="click->chalice#makeItemSelection" data-column="11" data-row="1">
 
-          <img src="images/hard_truths.jpg" title="Hard Truths" >
-          <img src="images/reverie_dawn_cloak.jpg" title="Class (Dreaming City)" >
-          <img src="images/fate_cries_foul.jpg" title="Fate Cries Foul" >
-          <img src="images/sleepless.jpg" title="Sleepless" >
-          <img src="images/reverie_dawn_grasps.jpg" title="Gloves (Dreaming City)" >
-          <img src="images/reverie_dawn_strides.jpg" title="Boots (Dreaming City)" >
-          <img src="images/waking_vigil.jpg" title="Waking Vigil" >
-          <img src="images/anonymous_autumn.jpg" title="Anonymous Autumn" >
-          <img src="images/reverie_dawn_casque.jpg" title="Helmet (Dreaming City)" >
-          <img src="images/the_epicurean.jpg" title="The Epicurean" >
-          <img src="images/reverie_dawn_hauberk.jpg" title="Chest (Dreaming City)" >
-          <img src="images/imperial_decree.jpg" title="Imperial Decree" >
+          <img src="images/hard_truths.jpg" title="Hard Truths"
+            data-action="click->chalice#makeItemSelection" data-column="0" data-row="2">
+          <img src="images/reverie_dawn_cloak.jpg" title="Class (Dreaming City)"
+            data-action="click->chalice#makeItemSelection" data-column="1" data-row="2">
+          <img src="images/fate_cries_foul.jpg" title="Fate Cries Foul"
+            data-action="click->chalice#makeItemSelection" data-column="2" data-row="2">
+          <img src="images/sleepless.jpg" title="Sleepless"
+            data-action="click->chalice#makeItemSelection" data-column="3" data-row="2">
+          <img src="images/reverie_dawn_grasps.jpg" title="Gloves (Dreaming City)"
+            data-action="click->chalice#makeItemSelection" data-column="4" data-row="2">
+          <img src="images/reverie_dawn_strides.jpg" title="Boots (Dreaming City)"
+            data-action="click->chalice#makeItemSelection" data-column="5" data-row="2">
+          <img src="images/waking_vigil.jpg" title="Waking Vigil"
+            data-action="click->chalice#makeItemSelection" data-column="6" data-row="2">
+          <img src="images/anonymous_autumn.jpg" title="Anonymous Autumn"
+            data-action="click->chalice#makeItemSelection" data-column="7" data-row="2">
+          <img src="images/reverie_dawn_casque.jpg" title="Helmet (Dreaming City)"
+            data-action="click->chalice#makeItemSelection" data-column="8" data-row="2">
+          <img src="images/the_epicurean.jpg" title="The Epicurean"
+            data-action="click->chalice#makeItemSelection" data-column="9" data-row="2">
+          <img src="images/reverie_dawn_hauberk.jpg" title="Chest (Dreaming City)"
+            data-action="click->chalice#makeItemSelection" data-column="10" data-row="2">
+          <img src="images/imperial_decree.jpg" title="Imperial Decree"
+            data-action="click->chalice#makeItemSelection" data-column="11" data-row="2">
 
-          <img src="images/bad_reputation.jpg" title="Bad Reputation" >
-          <img src="images/opulent_stalker_cloak.jpg" title="Class (Menagerie)" >
-          <img src="images/dreaded_venture.jpg" title="Dreaded Venture" >
-          <img src="images/fixed_odds.jpg" title="Fixed Odds" >
-          <img src="images/opulent_stalker_grips.jpg" title="Gloves (Menagerie)" >
-          <img src="images/opulent_stalker_strides.jpg" title="Boots (Menagerie)" >
-          <img src="images/pribina_d.jpg" title="Pribina-D" >
-          <img src="images/smugglers_word.jpg" title="Smuggler's Word" >
-          <img src="images/opulent_stalker_mask.jpg" title="Helmet (Menagerie)" >
-          <img src="images/erentil_fr4.jpg" title="Erentil FR4" >
-          <img src="images/opulent_stalker_vest.jpg" title="Chest (Menagerie)" >
-          <img src="images/dust_rock_blues.jpg" title="Dust Rock Blues" >
+          <img src="images/bad_reputation.jpg" title="Bad Reputation"
+            data-action="click->chalice#makeItemSelection" data-column="0" data-row="3">
+          <img src="images/opulent_stalker_cloak.jpg" title="Class (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="1" data-row="3">
+          <img src="images/dreaded_venture.jpg" title="Dreaded Venture"
+            data-action="click->chalice#makeItemSelection" data-column="2" data-row="3">
+          <img src="images/fixed_odds.jpg" title="Fixed Odds"
+            data-action="click->chalice#makeItemSelection" data-column="3" data-row="3">
+          <img src="images/opulent_stalker_grips.jpg" title="Gloves (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="4" data-row="3">
+          <img src="images/opulent_stalker_strides.jpg" title="Boots (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="5" data-row="3">
+          <img src="images/pribina_d.jpg" title="Pribina-D"
+            data-action="click->chalice#makeItemSelection" data-column="6" data-row="3">
+          <img src="images/smugglers_word.jpg" title="Smuggler's Word"
+            data-action="click->chalice#makeItemSelection" data-column="7" data-row="3">
+          <img src="images/opulent_stalker_mask.jpg" title="Helmet (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="8" data-row="3">
+          <img src="images/erentil_fr4.jpg" title="Erentil FR4"
+            data-action="click->chalice#makeItemSelection" data-column="9" data-row="3">
+          <img src="images/opulent_stalker_vest.jpg" title="Chest (Menagerie)"
+            data-action="click->chalice#makeItemSelection" data-column="10" data-row="3">
+          <img src="images/dust_rock_blues.jpg" title="Dust Rock Blues"
+            data-action="click->chalice#makeItemSelection" data-column="11" data-row="3">
         </div>
       </div>
 
