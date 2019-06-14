@@ -9,7 +9,7 @@
 
       application.register("chalice", class extends Stimulus.Controller {
         static get targets() {
-          return [ "slot", "slotOne", "slotTwo", "slotThree", "results", "clear" ]
+          return [ "slot", "slotOne", "slotTwo", "slotThree", "results", "clear", "placeholder" ]
         }
 
         connect() {
@@ -93,6 +93,7 @@
 
           this.clearable = true
           this.clearTarget.classList.remove("hidden")
+          this.placeholderTarget.classList.add("hidden")
           this.showResults(e.target.title)
         }
 
@@ -180,6 +181,9 @@
 
           // hide clear button
           this.clearTarget.classList.add("hidden")
+
+          // reveal placeholder
+          this.placeholderTarget.classList.remove("hidden")
         }
 
         toggleResultPicker(e) {
@@ -252,13 +256,14 @@
       display: flex;
       justify-content: center;
     }
-    .results, .clear-container {
+    .results, .clear-container, .placeholder-container {
       display: flex;
       justify-content: center;
       margin-top: 50px;
     }
-    .results {
+    .placeholder-container {
       position: relative;
+      margin-top: 0px;
     }
     .clear-container {
       margin-top: 20px;
@@ -306,7 +311,7 @@
       top: 85px;
       right: 0;
     }
-    .results .placeholder {
+    .placeholder {
       width: 115px;
       height: 115px;
       border: 2px solid #5a5a5a;
@@ -315,6 +320,9 @@
     }
     .placeholder.is-open .result-picker {
       display: flex;
+    }
+    .placeholder.hidden {
+      display: none;
     }
     .result-picker {
       display: none;
@@ -437,7 +445,10 @@
     </div>
 
     <div class="results" data-target="chalice.results">
-      <div class="placeholder" data-action="click->chalice#toggleResultPicker">
+    </div>
+
+    <div class="placeholder-container">
+      <div class="placeholder" data-target="chalice.placeholder" data-action="click->chalice#toggleResultPicker">
         <div class="result-picker picker">
           <img src="images/calus_mini_tool.jpg" title="CALUS Mini-Tool">
           <img src="images/tangled_web_cloak.jpg" title="Class (Tangled Shore)">
@@ -492,6 +503,7 @@
           <img src="images/dust_rock_blues.jpg" title="Dust Rock Blues" >
         </div>
       </div>
+
     </div>
 
     <div class="clear-container">
