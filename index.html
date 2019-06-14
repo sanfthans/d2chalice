@@ -9,7 +9,7 @@
 
       application.register("chalice", class extends Stimulus.Controller {
         static get targets() {
-          return [ "slot", "slotOne", "slotTwo", "slotThree", "results" ]
+          return [ "slot", "slotOne", "slotTwo", "slotThree", "results", "clear" ]
         }
 
         connect() {
@@ -42,10 +42,21 @@
             ["Helmet (Tangled Shore)", "Helmet (Menagerie)", "Helmet (Dreaming City)", "Helmet (Menagerie)"],
             ["Chest (Tangled Shore)", "Chest (Menagerie)", "Chest (Dreaming City)", "Chest (Menagerie)"]
           ]
+
+          this.selectedCol = null
+          this.selectedRow = null
+          this.selectedResistance = null
+          this.selectedMasterwork = null
+          this.clearable = false
         }
 
         togglePicker(e) {
           let slot = e.target.closest(".slot")
+
+          if ((slot === this.slotTwoTarget && this.selectedCol === null) || (slot === this.slotThreeTarget && this.selectedRow === null)) {
+            return
+          }
+
           slot.classList.toggle("is-open")
 
           // close other pickers
@@ -77,6 +88,8 @@
             this.selectedMasterwork = e.target.dataset["masterwork"]
           }
 
+          this.clearable = true
+          this.clearTarget.classList.remove("hidden")
           this.showResults()
         }
 
@@ -86,14 +99,14 @@
           let name = ""
           let resultsTarget = this.resultsTarget
 
-          if (typeof this.selectedCol !== 'undefined') {
+          if (this.selectedCol !== null) {
             // both slots being used
-            if (typeof this.selectedRow !== 'undefined') {
+            if (this.selectedRow !== null) {
               selected = this.grid[this.selectedCol][this.selectedRow]
               name = this.namesGrid[this.selectedCol][this.selectedRow]
 
               // all three slots being used
-              if (typeof this.selectedResistance !== 'undefined') {
+              if (this.selectedResistance !== null) {
                 let capitalized = this.selectedResistance.charAt(0).toUpperCase() + this.selectedResistance.slice(1)
                 // armor selected. show resistance
                 if (this.selectedCol > 6) {
@@ -139,6 +152,33 @@
           }
         }
 
+        clearSelection(e) {
+          if (!this.clearable) {
+            return
+          }
+          let controller = this
+
+          // reset all slots
+          this.slotTargets.forEach(slot => {
+            slot.querySelector("img").src = "images/slot.png"
+            slot.querySelector(".slot-name").innerHTML = slot.dataset["name"]
+            slot.classList.remove("is-open")
+          })
+
+          // reset selected values
+          this.selectedCol = null
+          this.selectedRow = null
+          this.selectedResistance = null
+          this.selectedMasterwork = null
+          this.clearable = false
+
+          // clear results
+          this.resultsTarget.innerHTML = ""
+
+          // hide clear button
+          this.clearTarget.classList.add("hidden")
+        }
+
       })
     })()
   </script>
@@ -172,6 +212,13 @@
       background-color: #252525;
       z-index: 1;
     }
+    [data-target*="chalice.slotTwo"] .picker {
+      left: 0;
+    }
+    [data-target*="chalice.slotThree"] .picker {
+      right: 0;
+    }
+
     .picker img {
       width: 50px;
       height: 50px;
@@ -184,15 +231,35 @@
       display: flex;
       justify-content: space-between;
       margin-top: 30px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid #5a5a5a;
     }
     .chalice {
       display: flex;
       justify-content: center;
     }
-    .results {
+    .results, .clear-container {
       display: flex;
       justify-content: center;
       margin-top: 50px;
+    }
+    .clear-container {
+      margin-top: 20px;
+    }
+    .clear {
+      background: none;
+      font-size: 1rem;
+      color: #e47272;
+      border: 1px solid #e47272;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .clear:hover {
+      color: #9e4444;
+      border-color: #9e4444;
+    }
+    .clear.hidden {
+      display: none;
     }
     .result {
       display: flex;
@@ -206,16 +273,14 @@
     .result:first-child {
       margin-left: 0px;
     }
-    .result-name {
+    .result-name, .modifier-text {
       font-size: .7rem;
       color: white;
       text-align: center;
       margin-top: 10px;
     }
     .modifier-text {
-      font-size: .7rem;
-      color: white;
-      text-align: center;
+      margin-top: 3px;
     }
     .result img.modifier {
       width: 30px;
@@ -229,9 +294,9 @@
 <body style="background-color:#252525;">
   <div class="container" data-controller="chalice">
 
-    <div class="slot" data-target="chalice.slotOne chalice.slot">
+    <div class="slot" data-target="chalice.slotOne chalice.slot" data-name="Slot 1">
       <img src="images/slot.png" data-action="click->chalice#togglePicker">
-      <div class="slot-name"></div>
+      <div class="slot-name">Slot 1</div>
       <div class="picker">
         <img src="images/beast.png" data-action="click->chalice#makeSelection"
           data-name="Beast" data-column="0" title="Beast">
@@ -261,9 +326,9 @@
     </div>
 
     <div class="slot-container">
-      <div class="slot" data-target="chalice.slotTwo chalice.slot">
+      <div class="slot" data-target="chalice.slotTwo chalice.slot" data-name="Slot 2">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
-        <div class="slot-name"></div>
+        <div class="slot-name">Slot 2</div>
         <div class="picker">
           <img src="images/beast.png" data-action="click->chalice#makeSelection"
             data-name="Beast" data-row="0" title="Beast">
@@ -296,9 +361,9 @@
         <img src="images/chalice.jpeg">
       </div>
 
-      <div class="slot" data-target="chalice.slotThree chalice.slot">
+      <div class="slot" data-target="chalice.slotThree chalice.slot" data-name="Slot 3">
         <img src="images/slot.png" data-action="click->chalice#togglePicker">
-        <div class="slot-name"></div>
+        <div class="slot-name">Slot 3</div>
         <div class="picker">
           <img src="images/beast.png" data-action="click->chalice#makeSelection"
             data-name="Beast" data-resistance="arc" data-masterwork="handling" title="Beast">
@@ -329,6 +394,10 @@
     </div>
 
     <div class="results" data-target="chalice.results">
+    </div>
+
+    <div class="clear-container">
+      <button class="clear hidden" data-action="chalice#clearSelection" data-target="chalice.clear">Clear All</button>
     </div>
   </div>
 </body>
