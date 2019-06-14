@@ -15,32 +15,32 @@
         connect() {
           this.grid = [
             ['calus_mini_tool', 'trackless_waste', 'hard_truths', 'bad_reputation'],
+            ['tangled_web_cloak', 'exodus_down_cloak', 'reverie_dawn_cloak', 'opulent_stalker_cloak'],
             ['twilight_oath', 'beloved', 'fate_cries_foul', 'dreaded_venture'],
             ['bad_omens', 'zenobia_d', 'sleepless', 'fixed_odds'],
-            ['trust', 'austringer', 'waking_vigil', 'pribina_d'],
-            ['drang_baroque', 'the_last_dance', 'anonymous_autumn', 'smugglers_word'],
-            ['proelium_fr3', 'main_ingredient', 'the_epicurean', 'erentil_fr4'],
-            ['badlander', 'parcel_of_stardust', 'imperial_decree', 'dust_rock_blues'],
-            ['tangled_web_cloak', 'exodus_down_cloak', 'reverie_dawn_cloak', 'opulent_stalker_cloak'],
             ['tangled_web_grips', 'exodus_down_grips', 'reverie_dawn_grasps', 'opulent_stalker_grips'],
             ['tangled_web_strides', 'exodus_down_strides', 'reverie_dawn_strides', 'opulent_stalker_strides'],
+            ['trust', 'austringer', 'waking_vigil', 'pribina_d'],
+            ['drang_baroque', 'the_last_dance', 'anonymous_autumn', 'smugglers_word'],
             ['tangled_web_mask', 'exodus_down_mask', 'reverie_dawn_casque', 'opulent_stalker_mask'],
+            ['proelium_fr3', 'main_ingredient', 'the_epicurean', 'erentil_fr4'],
             ['tangled_web_vest', 'exodus_down_vest', 'reverie_dawn_hauberk', 'opulent_stalker_vest']
+            ['badlander', 'parcel_of_stardust', 'imperial_decree', 'dust_rock_blues'],
           ]
 
           this.namesGrid = [
             ['CALUS Mini-Tool', 'Trackless Waste', 'Hard Truths', 'Bad Reputation'],
+            ["Class (Tangled Shore)", "Class (Menagerie)", "Class (Dreaming City)", "Class (Menagerie)"],
             ['Twilight Oath', 'Beloved', 'Fate Cries Foul', 'Dreaded Venture'],
             ['Bad Omens', 'Zenobia-D', 'Sleepless', 'Fixed Odds'],
-            ['Trust', 'Austringer', 'Waking Vigil', 'Pribina-D'],
-            ['Drang (Baroque)', 'The Last Dance', 'Anonymous Autumn', "Smuggler's Word"],
-            ['Proelium FR3', 'Main Ingredient', 'The Epicurean', 'Erentil FR4'],
-            ['Badlander', 'Parcel of Stardust', 'Imperial Decree', 'Dust Rock Blues'],
-            ["Class (Tangled Shore)", "Class (Menagerie)", "Class (Dreaming City)", "Class (Menagerie)"],
             ["Gloves (Tangled Shore)", "Gloves (Menagerie)", "Gloves (Dreaming City)", "Gloves (Menagerie)"],
             ["Boots (Tangled Shore)", "Boots (Menagerie)", "Boots (Dreaming City)", "Boots (Menagerie)"],
+            ['Trust', 'Austringer', 'Waking Vigil', 'Pribina-D'],
+            ['Drang (Baroque)', 'The Last Dance', 'Anonymous Autumn', "Smuggler's Word"],
             ["Helmet (Tangled Shore)", "Helmet (Menagerie)", "Helmet (Dreaming City)", "Helmet (Menagerie)"],
+            ['Proelium FR3', 'Main Ingredient', 'The Epicurean', 'Erentil FR4'],
             ["Chest (Tangled Shore)", "Chest (Menagerie)", "Chest (Dreaming City)", "Chest (Menagerie)"]
+            ['Badlander', 'Parcel of Stardust', 'Imperial Decree', 'Dust Rock Blues'],
           ]
 
           this.selectedCol = null
@@ -65,6 +65,9 @@
               el.classList.remove("is-open")
             }
           })
+
+          // close resultpicker
+          this.element.querySelector(".placeholder").classList.remove("is-open")
         }
 
         makeSelection(e) {
@@ -90,10 +93,10 @@
 
           this.clearable = true
           this.clearTarget.classList.remove("hidden")
-          this.showResults()
+          this.showResults(e.target.title)
         }
 
-        showResults() {
+        showResults(selectedName) {
           let controller = this
           let selected = ""
           let name = ""
@@ -109,7 +112,7 @@
               if (this.selectedResistance !== null) {
                 let capitalized = this.selectedResistance.charAt(0).toUpperCase() + this.selectedResistance.slice(1)
                 // armor selected. show resistance
-                if (this.selectedCol > 6) {
+                if ([1, 4, 5, 8, 10].includes(this.selectedCol)) {
                   resultsTarget.innerHTML = `
                   <div class='result'>
                     <img class="main" src="images/${selected}.jpg" >
@@ -179,6 +182,17 @@
           this.clearTarget.classList.add("hidden")
         }
 
+        toggleResultPicker(e) {
+          let placeholder = e.target
+          placeholder.classList.toggle("is-open")
+
+          // close rune pickers
+          this.slotTargets.forEach(el => {
+            el.classList.remove("is-open")
+          })
+
+        }
+
       })
     })()
   </script>
@@ -243,6 +257,9 @@
       justify-content: center;
       margin-top: 50px;
     }
+    .results {
+      position: relative;
+    }
     .clear-container {
       margin-top: 20px;
     }
@@ -289,6 +306,32 @@
       top: 85px;
       right: 0;
     }
+    .results .placeholder {
+      width: 115px;
+      height: 115px;
+      border: 2px solid #5a5a5a;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .placeholder.is-open .result-picker {
+      display: flex;
+    }
+    .result-picker {
+      display: none;
+      position: absolute;
+      top: 123px;
+      left: 100px;
+      width: 600px;
+      flex-wrap: wrap;
+      background-color: #252525;
+      z-index: 1;
+    }
+    .result-picker img {
+      opacity: .5;
+    }
+    .result-picker img:hover {
+      opacity: 1;
+    }
   </style>
 <head>
 <body style="background-color:#252525;">
@@ -301,27 +344,27 @@
         <img src="images/beast.png" data-action="click->chalice#makeSelection"
           data-name="Beast" data-column="0" title="Beast">
         <img src="images/joy.png" data-action="click->chalice#makeSelection"
-          data-name="Joy" data-column="7" title="Joy">
+          data-name="Joy" data-column="1" title="Joy">
         <img src="images/jubilation.png" data-action="click->chalice#makeSelection"
-          data-name="Jubilation" data-column="1" title="Jubilation">
+          data-name="Jubilation" data-column="2" title="Jubilation">
         <img src="images/ambition.png" data-action="click->chalice#makeSelection"
-          data-name="Ambition" data-column="2" title="Ambition">
+          data-name="Ambition" data-column="3" title="Ambition">
         <img src="images/cunning.png" data-action="click->chalice#makeSelection"
-          data-name="Cunning" data-column="8" title="Cunning">
+          data-name="Cunning" data-column="4" title="Cunning">
         <img src="images/gluttony.png" data-action="click->chalice#makeSelection"
-          data-name="Gluttony" data-column="9" title="Gluttony">
+          data-name="Gluttony" data-column="5" title="Gluttony">
         <img src="images/desire.png" data-action="click->chalice#makeSelection"
-          data-name="Desire" data-column="3" title="Desire">
+          data-name="Desire" data-column="6" title="Desire">
         <img src="images/pride.png" data-action="click->chalice#makeSelection"
-          data-name="Pride" data-column="4" title="Pride">
+          data-name="Pride" data-column="7" title="Pride">
         <img src="images/war.png" data-action="click->chalice#makeSelection"
-          data-name="War" data-column="10" title="War">
+          data-name="War" data-column="8" title="War">
         <img src="images/excess.png" data-action="click->chalice#makeSelection"
-          data-name="Excess" data-column="5" title="Excess">
+          data-name="Excess" data-column="9" title="Excess">
         <img src="images/pleasure.png" data-action="click->chalice#makeSelection"
-          data-name="Pleasure" data-column="11" title="Pleasure">
+          data-name="Pleasure" data-column="10" title="Pleasure">
         <img src="images/wealth.png" data-action="click->chalice#makeSelection"
-          data-name="Wealth" data-column="6" title="Wealth">
+          data-name="Wealth" data-column="11" title="Wealth">
       </div>
     </div>
 
@@ -394,6 +437,61 @@
     </div>
 
     <div class="results" data-target="chalice.results">
+      <div class="placeholder" data-action="click->chalice#toggleResultPicker">
+        <div class="result-picker picker">
+          <img src="images/calus_mini_tool.jpg" title="CALUS Mini-Tool">
+          <img src="images/tangled_web_cloak.jpg" title="Class (Tangled Shore)">
+          <img src="images/twilight_oath.jpg" title="Twilight Oath">
+          <img src="images/bad_omens.jpg" title="Bad Omens">
+          <img src="images/tangled_web_grips.jpg" title="Gloves (Tangled Shore)">
+          <img src="images/tangled_web_strides.jpg" title="Boots (Tangled Shore)">
+          <img src="images/trust.jpg" title="Trust">
+          <img src="images/drang_baroque.jpg" title="Drang (Baroque)">
+          <img src="images/tangled_web_mask.jpg" title="Helmet (Tangled Shore)">
+          <img src="images/proelium_fr3.jpg" title="Proelium FR3">
+          <img src="images/tangled_web_vest.jpg" title="Chest (Tangled Shore)">
+          <img src="images/badlander.jpg" title="Badlander">
+
+          <img src="images/trackless_waste.jpg" title="Trackless Waste">
+          <img src="images/exodus_down_cloak.jpg" title="Class (Menagerie)">
+          <img src="images/beloved.jpg" title="Beloved">
+          <img src="images/zenobia_d.jpg" title="Zenobia-D">
+          <img src="images/exodus_down_grips.jpg" title="Gloves (Menagerie)">
+          <img src="images/exodus_down_strides.jpg" title="Boots (Menagerie)">
+          <img src="images/austringer.jpg" title="Austringer">
+          <img src="images/the_last_dance.jpg" title="The Last Dance">
+          <img src="images/exodus_down_mask.jpg" title="Helmet (Menagerie)">
+          <img src="images/main_ingredient.jpg" title="Main Ingredient">
+          <img src="images/exodus_down_vest.jpg" title="Chest (Menagerie)">
+          <img src="images/parcel_of_stardust.jpg" title="Parcel of Stardust">
+
+          <img src="images/hard_truths.jpg" title="Hard Truths" >
+          <img src="images/reverie_dawn_cloak.jpg" title="Class (Dreaming City)" >
+          <img src="images/fate_cries_foul.jpg" title="Fate Cries Foul" >
+          <img src="images/sleepless.jpg" title="Sleepless" >
+          <img src="images/reverie_dawn_grasps.jpg" title="Gloves (Dreaming City)" >
+          <img src="images/reverie_dawn_strides.jpg" title="Boots (Dreaming City)" >
+          <img src="images/waking_vigil.jpg" title="Waking Vigil" >
+          <img src="images/anonymous_autumn.jpg" title="Anonymous Autumn" >
+          <img src="images/reverie_dawn_casque.jpg" title="Helmet (Dreaming City)" >
+          <img src="images/the_epicurean.jpg" title="The Epicurean" >
+          <img src="images/reverie_dawn_hauberk.jpg" title="Chest (Dreaming City)" >
+          <img src="images/imperial_decree.jpg" title="Imperial Decree" >
+
+          <img src="images/bad_reputation.jpg" title="Bad Reputation" >
+          <img src="images/opulent_stalker_cloak.jpg" title="Class (Menagerie)" >
+          <img src="images/dreaded_venture.jpg" title="Dreaded Venture" >
+          <img src="images/fixed_odds.jpg" title="Fixed Odds" >
+          <img src="images/opulent_stalker_grips.jpg" title="Gloves (Menagerie)" >
+          <img src="images/opulent_stalker_strides.jpg" title="Boots (Menagerie)" >
+          <img src="images/pribina_d.jpg" title="Pribina-D" >
+          <img src="images/smugglers_word.jpg" title="Smuggler's Word" >
+          <img src="images/opulent_stalker_mask.jpg" title="Helmet (Menagerie)" >
+          <img src="images/erentil_fr4.jpg" title="Erentil FR4" >
+          <img src="images/opulent_stalker_vest.jpg" title="Chest (Menagerie)" >
+          <img src="images/dust_rock_blues.jpg" title="Dust Rock Blues" >
+        </div>
+      </div>
     </div>
 
     <div class="clear-container">
