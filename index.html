@@ -58,7 +58,11 @@
         toggleRunePicker(e) {
           let slot = e.target.closest(".slot")
 
-          if ((slot === this.slotTwoTarget && this.selectedCol === null) || (slot === this.slotThreeTarget && this.selectedRow === null)) {
+          if (slot === this.slotTwoTarget && this.selectedCol === null) {
+            alert("A rune in Slot 1 is required")
+            return
+          } else if (slot === this.slotThreeTarget && this.selectedRow === null) {
+            alert("A rune in Slot 2 is required")
             return
           }
 
