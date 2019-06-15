@@ -13,6 +13,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/94366cb824.js"></script>
   <script src="https://unpkg.com/stimulus/dist/stimulus.umd.js"></script>
   <script>
     (() => {
@@ -378,6 +379,27 @@
       opacity: 1;
     }
 
+    .footer {
+      margin-top: 150px;
+      display: flex;
+      justify-content: space-around;
+      color: white;
+      font-size: 1.2rem;
+    }
+    .footer a {
+      font-size: 1.4rem;
+      color: white;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .footer a:hover {
+      color: #888888;
+    }
+    .footer a.big {
+      font-size: 1.6rem;
+    }
+
+
     @media only screen and (min-width : 370px) and (max-width : 600px) {
       .result-picker {
         width: 372px !important;
@@ -386,7 +408,12 @@
         width: 31px !important;
         height: 31px !important;
       }
+
+      .footer {
+        margin-top: 75px;
+      }
     }
+
   </style>
 <head>
 <body style="background-color:#252525;">
@@ -603,6 +630,15 @@
     <div class="clear-container">
       <button class="clear hidden" data-action="chalice#clearAll" data-target="chalice.clear">Clear All</button>
     </div>
+    <p class="footer">
+      <span>Made with <i class="fas fa-heart"></i> by phillipspc</span>
+      <span class="links">
+        <a href="https://github.com/phillipspc" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/phillipspc" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a class="big" href="https://www.bungie.net/en/ClanV2/Index?groupId=2073004" target="_blank">&Omega;</a>
+      </span>
+    </p>
+
   </div>
 </body>
 </html>
